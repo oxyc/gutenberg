@@ -836,8 +836,6 @@
 
 .editor-block-contextual-toolbar .editor-block-toolbar {
 	width: 100%;
-	background: $white;
-	border: $border-width solid $light-gray-500;
 
 	// Hide right border on desktop, where the .components-toolbar instead has a right border.
 	@include break-small() {
