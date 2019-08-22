@@ -244,7 +244,7 @@ export default function( css, options ) {
 		}
 
 		// val
-		const val = match( /^((?:'(?:\\'|.)*?'|"(?:\\"|.)*?"|\([^\)]*?\)|[^};])+)/ );
+		const val = match( /^((?:'(?:\\'|.)*?'|"(?:\\"|.)*?"|\([^\)]*?['"]\)|[^};])+)/ );
 
 		const ret = pos( {
 			type: 'declaration',
