@@ -35,7 +35,7 @@ function ColumnEdit( {
 	updateAlignment,
 	updateWidth,
 	hasChildBlocks,
-	parentLock,
+	columnsParentLock,
 } ) {
 	const { verticalAlignment, width } = attributes;
 
@@ -69,7 +69,11 @@ function ColumnEdit( {
 				</PanelBody>
 			</InspectorControls>
 			<InnerBlocks
-				templateLock={ parentLock }
+				// It is safe to set an "inherited" locking explicitly because no
+				// template is set on the column. If a template was set and parent lock
+				// was equal to "all" the local template set would be forced and other
+				// templates passed e.g via CPT would be ignored.
+				templateLock={ columnsParentLock }
 				renderAppender={ (
 					hasChildBlocks ?
 						undefined :
@@ -89,12 +93,12 @@ export default compose(
 			getTemplateLock,
 		} = select( 'core/block-editor' );
 
-		// Retrieve the parent of the Columns Block.
-		const rootParentClientId = getBlockRootClientId( getBlockRootClientId( clientId ) );
+		const parentColumnsId = getBlockRootClientId( clientId );
+		const parentOfColumnsId = getBlockRootClientId( parentColumnsId );
 
 		return {
 			hasChildBlocks: getBlockOrder( clientId ).length > 0,
-			parentLock: getTemplateLock( rootParentClientId ),
+			columnsParentLock: getTemplateLock( parentOfColumnsId ),
 		};
 	} ),
 	withDispatch( ( dispatch, ownProps, registry ) => {
