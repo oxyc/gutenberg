@@ -2,6 +2,7 @@
  * External dependencies
  */
 import { every, map, get, mapValues, isArray } from 'lodash';
+import { diff, patch } from 'jsondiffpatch';
 
 /**
  * WordPress dependencies
@@ -53,6 +54,13 @@ export function synchronizeBlocksWithTemplate( blocks = [], template ) {
 	if ( ! template ) {
 		return blocks;
 	}
+
+	const delta = diff(
+		blocks.map( ( block ) => block.name ),
+		template.map( ( block ) => block[ 0 ] )
+	);
+
+	blocks = patch( blocks, delta );
 
 	return map(
 		template,
